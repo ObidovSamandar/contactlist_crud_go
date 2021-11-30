@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -59,7 +58,6 @@ func DeleteContact(c *gin.Context) {
 
 	contact := Contact{}
 
-	fmt.Println(id)
 	err := dbconnector.DBClient.Get(&contact, "SELECT * FROM contactlistdb WHERE id=$1", id)
 
 	if err != nil {
@@ -164,7 +162,6 @@ func UpdateContact(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(id)
 	res, err := dbconnector.DBClient.Exec("UPDATE contactlistdb SET firstname=$1, lastname=$2, email=$3, phone=$4 WHERE id=$5", requestBody.FirstName, requestBody.LastName, requestBody.Email, requestBody.Phone, id)
 
 	if err != nil {

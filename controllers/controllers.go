@@ -39,7 +39,6 @@ func CreateContact(c *gin.Context) {
 
 	_, err = dbconnector.DBClient.Exec("INSERT INTO contactlistdb (id, firstname, lastname, email, phone) VALUES($1,$2,$3,$4,$5);", id, createContactBody.FirstName, createContactBody.LastName, createContactBody.Email, createContactBody.Phone)
 
-	fmt.Println(err)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error":   true,
@@ -61,7 +60,6 @@ func DeleteContact(c *gin.Context) {
 	contact := Contact{}
 
 	fmt.Println(id)
-
 	err := dbconnector.DBClient.Get(&contact, "SELECT * FROM contactlistdb WHERE id=$1", id)
 
 	if err != nil {
@@ -84,7 +82,6 @@ func DeleteContact(c *gin.Context) {
 	}
 
 	count, _ := res.RowsAffected()
-	fmt.Println(count)
 	if count == 0 {
 		c.JSON(400, gin.H{
 			"error":   true,
@@ -167,9 +164,8 @@ func UpdateContact(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(contact)
-
-	res, err := dbconnector.DBClient.Exec("UPDATE contactlistdb SET firstname=$1 lastname=$2 email=$3 phone=$4 WHERE id=$5", requestBody.FirstName, requestBody.LastName, requestBody.Email, requestBody.Phone, id)
+	fmt.Println(id)
+	res, err := dbconnector.DBClient.Exec("UPDATE contactlistdb SET firstname=$1, lastname=$2, email=$3, phone=$4 WHERE id=$5", requestBody.FirstName, requestBody.LastName, requestBody.Email, requestBody.Phone, id)
 
 	if err != nil {
 		c.JSON(400, gin.H{
